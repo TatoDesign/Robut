@@ -8,6 +8,7 @@ TagManager:
   - RobutTag
   - BallMouthTag
   - FloorTag
+  - PlayerHeadTag
   layers:
   - Default
   - TransparentFX

@@ -10,14 +10,13 @@ public class PlayerView : MonoBehaviour
 
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X");
+       
         float mouseY = Input.GetAxis("Mouse Y");
 
         Vector3 currentRotation = transform.rotation.eulerAngles;
         currentRotation.z = 0;
         transform.rotation = Quaternion.Euler(currentRotation);
 
-        transform.Rotate(Vector3.up * mouseX * 2 * velocidadRotacion);
         transform.Rotate(Vector3.left * mouseY * velocidadRotacion);
 
         // Raycast para ver si estamos apuntando a un objeto con el tag "BallTag" y está a una distancia menor que 2f
