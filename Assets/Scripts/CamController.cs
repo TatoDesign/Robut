@@ -1,49 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CamController : MonoBehaviour
+public class ResorteraController : MonoBehaviour
 {
-    private Camera cam;
-    private GameObject objetoActual;
+    public GameObject proyectilPrefab;
+    public Transform puntoLanzamiento;
+    public float fuerzaLanzamiento = 10f;
+
+    private MeshRenderer meshRenderer;
 
     void Start()
     {
-        cam = Camera.main;
+        meshRenderer = GetComponent<MeshRenderer>();
+
+        if (meshRenderer == null)
+        {
+            Debug.LogError("El GameObject no tiene un componente MeshRenderer.");
+        }
     }
 
     void Update()
     {
-        // Lanza un rayo desde la posición de la cámara hacia la dirección del mouse
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        // Verifica si el rayo golpea un objeto
-        if (Physics.Raycast(ray, out hit))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            GameObject nuevoObjeto = hit.transform.gameObject;
-
-            // Si el objeto mirado ha cambiado, muestra el nombre en la consola
-            if (nuevoObjeto != objetoActual)
-            {
-                if (objetoActual != null)
-                {
-                    Debug.Log("Dejaste de mirar a: " + objetoActual.name);
-                }
-                objetoActual = nuevoObjeto;
-                Debug.Log("Estás mirando a: " + objetoActual.name);
-            }
+            meshRenderer.enabled = true;
         }
-        else
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            // Si no golpea ningún objeto, muestra un mensaje de que no estás mirando ningún objeto
-            if (objetoActual != null)
-            {
-                Debug.Log("Dejaste de mirar a: " + objetoActual.name);
-                objetoActual = null;
-            }
+            meshRenderer.enabled = false;
+        }
+
+        if (meshRenderer != null && meshRenderer.enabled && Input.GetMouseButtonDown(0))
+        {
+            LanzarProyectil();
+        }
+
+        // Actualiza la rotación del punto de lanzamiento para mirar hacia la posición del mouse
+        if (meshRenderer != null && meshRenderer.enabled)
+        {
+            ActualizarPuntoDeLanzamiento();
+        }
+    }
+
+    void ActualizarPuntoDeLanzamiento()
+    {
+        // Lanza un raycast desde la cámara hacia la posición del mouse en el mundo
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            // Calcula la dirección desde el punto de lanzamiento hacia la posición del mouse
+            Vector3 direccionHaciaMouse = hit.point - puntoLanzamiento.position;
+            puntoLanzamiento.rotation = Quaternion.LookRotation(direccionHaciaMouse, Vector3.up);
+        }
+    }
+
+    void LanzarProyectil()
+    {
+        GameObject proyectil = Instantiate(proyectilPrefab, puntoLanzamiento.position, puntoLanzamiento.rotation);
+        Rigidbody rb = proyectil.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            Vector3 direccionLanzamiento = puntoLanzamiento.forward;
+            rb.AddForce(direccionLanzamiento * fuerzaLanzamiento, ForceMode.Impulse);
         }
     }
 }
-
-

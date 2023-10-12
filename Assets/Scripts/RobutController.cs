@@ -13,7 +13,7 @@ public class RobutController : MonoBehaviour
     private GameObject taggedObjectMouth;
     private GameObject taggedObjectBall;
     private GameObject playerObject; // Variable para almacenar el objeto del jugador
-
+    private bool busca = true;
     private float startTime;
     private bool canFollow = false;
     void Start()
@@ -78,65 +78,81 @@ public class RobutController : MonoBehaviour
             }
         }
     }
-    void FixedUpdate()
+    void Update()
     {
-        if (playerObject != null)
+        
+     
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            originalPosition = new Vector3(4f, 0f, 0f) + playerObject.transform.position;
+            taggedObjectBall = GameObject.FindGameObjectWithTag("BallTag");
+            busca = true;
         }
-        if (Time.time - startTime >= 6f)
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            canFollow = true;
+            busca = false;
         }
-
-        float distanceToBall = Vector3.Distance(transform.position, taggedObjectBall.transform.position);
-
-        Vector3 targetDirection;
-
-        if (!isFetching && distanceToBall > maxDistance)
+        if (busca == true)
         {
-            targetDirection = taggedObjectBall.transform.position - transform.position; // Mira a la pelota
-        }
-        else
-        {
-            targetDirection = mainCamera.transform.position - transform.position; // Mira a la cámara principal
-        }
-
-        targetDirection.y = 0; // Esto hace que el objeto solo gire en el eje Y
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        targetRotation *= Quaternion.Euler(0, 90, 0); // Añade una rotación adicional de 90 grados en el eje Y
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
-
-        if (!isFetching && distanceToBall > maxDistance)
-        {
-            if (canFollow)
+            if (playerObject != null)
             {
-                // Mueve al perro hacia la pelota
-                Vector3 direction = (taggedObjectBall.transform.position - transform.position).normalized;
-                rb.MovePosition(transform.position + direction * speed * Time.fixedDeltaTime);
-                maxDistance = 0.25f;
+                originalPosition = new Vector3(4f, 0f, 0f) + playerObject.transform.position;
+            }
+            if (Time.time - startTime >= 6f)
+            {
+                canFollow = true;
+            }
+
+            float distanceToBall = Vector3.Distance(transform.position, taggedObjectBall.transform.position);
+
+            Vector3 targetDirection;
+
+            if (!isFetching && distanceToBall > maxDistance)
+            {
+                targetDirection = taggedObjectBall.transform.position - transform.position; // Mira a la pelota
+            }
+            else
+            {
+                targetDirection = mainCamera.transform.position - transform.position; // Mira a la cámara principal
+            }
+
+            targetDirection.y = 0; // Esto hace que el objeto solo gire en el eje Y
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            targetRotation *= Quaternion.Euler(0, 90, 0); // Añade una rotación adicional de 90 grados en el eje Y
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+
+            if (!isFetching && distanceToBall > maxDistance)
+            {
+                if (canFollow)
+                {
+                    // Mueve al perro hacia la pelota
+                    Vector3 direction = (taggedObjectBall.transform.position - transform.position).normalized;
+                    rb.MovePosition(transform.position + direction * speed * Time.fixedDeltaTime);
+                    maxDistance = 0.25f;
+                }
+            }
+            else if (distanceToBall < 0.25f)
+            {
+                // El perro ha alcanzado la pelota, ahora debe traerla de vuelta
+                PonerPelota();
+                // Teletransporta el objeto con el tag "BallTag" a su posición original
+                GameObject ballToTeleport = GameObject.FindWithTag("BallTag");
+                if (ballToTeleport != null)
+                {
+                    ballToTeleport.transform.position = originalPosition;
+                }
+            }
+            if (Vector3.Distance(transform.position, originalPosition) < 2f)
+            {
+                QuitarPelota(); isFetching = true; // El perro y la pelota han vuelto a su posición original
+                isFetching = false; maxDistance = 10f;
+            }
+            if (transform.position.y < -1)
+            {
+                TeleportToLayer22();
             }
         }
-        else if (distanceToBall < 0.25f)
-        {
-            // El perro ha alcanzado la pelota, ahora debe traerla de vuelta
-            PonerPelota();
-            // Teletransporta el objeto con el tag "BallTag" a su posición original
-            GameObject ballToTeleport = GameObject.FindWithTag("BallTag");
-            if (ballToTeleport != null)
-            {
-                ballToTeleport.transform.position = originalPosition;
-            }
-        }
-        if (Vector3.Distance(transform.position, originalPosition) < 2f)
-        {
-            QuitarPelota(); isFetching = true; // El perro y la pelota han vuelto a su posición original
-            isFetching = false; maxDistance = 10f;
-        }
-        if (transform.position.y < -1)
-        {
-            TeleportToLayer22();
-        }
+       
+       
     }
     void TeleportToLayer22()
     {

@@ -9,6 +9,8 @@ TagManager:
   - BallMouthTag
   - FloorTag
   - PlayerHeadTag
+  - ProyectilTag
+  - AreaTag
   layers:
   - Default
   - TransparentFX
