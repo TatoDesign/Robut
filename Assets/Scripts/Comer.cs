@@ -7,7 +7,7 @@ public class Comer : MonoBehaviour
     public bool puedeComer = false;
     private Transform target;
     private bool colisionConProyectil = false;
-
+    private bool colisionConProyectil1 = false;
     void Start()
     {
         GameObject targetObject = GameObject.FindGameObjectWithTag(tagName);
@@ -40,14 +40,8 @@ public class Comer : MonoBehaviour
                 GetComponent<Rigidbody>().MovePosition(transform.position + direction * speed * Time.fixedDeltaTime);
             }
 
-            // Verificar si hay una colisión con un objeto que tenga el tag "ProyectilTag"
-            if (colisionConProyectil)
-            {
-                // Igualar la posición en el eje Y con el objeto de destino
-                Vector3 newPosition = transform.position;
-                newPosition.y = target.position.y;
-                GetComponent<Rigidbody>().MovePosition(newPosition);
-            }
+  
+     
         }
     }
 
@@ -58,8 +52,22 @@ public class Comer : MonoBehaviour
         {
             colisionConProyectil = true;
         }
+        if(gameObject.CompareTag(tagName))
+        {
+            Debug.Log("tocó");
+        }
+        if (collision.gameObject.CompareTag("ProyectilTag") && gameObject.CompareTag(tagName))
+        {
+            Saltar();
+        }
     }
-
+    public void Saltar()
+    {
+        Debug.Log("Saltó");
+        Vector3 newPosition = transform.position;
+        newPosition.y = target.position.y;
+        GetComponent<Rigidbody>().MovePosition(newPosition);
+    }
     // Método para detectar el fin de colisiones con objetos que tengan el tag "ProyectilTag"
     void OnCollisionExit(Collision collision)
     {
