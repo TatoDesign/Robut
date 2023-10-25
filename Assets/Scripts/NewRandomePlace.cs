@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NewRandomePlace : MonoBehaviour
 {
-    private Comer comer;
+    public Comer comer;
 
     public float minX = -20f; // Valor mínimo en el eje X
     public float maxX = 20f;  // Valor máximo en el eje X
@@ -32,7 +32,7 @@ public class NewRandomePlace : MonoBehaviour
 
     void Start()
     {
-        comer = GetComponent<Comer>();
+        //comer = GetComponent<Comer>();
         // Buscar el objeto con el tag "Player" al inicio
         player = GameObject.FindGameObjectWithTag("Player");
 
@@ -66,7 +66,7 @@ public class NewRandomePlace : MonoBehaviour
 
         // Teletransportar este objeto a la posición aleatoria relativa al "Player" con Y constante
         transform.position = new Vector3(playerPosition.x + randomX, constantY, playerPosition.z + randomZ);
-       // comer.Saltar();
+        comer.Saltar();
     }
 
 
