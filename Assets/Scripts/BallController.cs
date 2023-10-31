@@ -15,6 +15,7 @@ public class BallController : MonoBehaviour
 
     [SerializeField] AudioClip pelota;
     [SerializeField] AudioClip ladrido;
+    [SerializeField] AudioClip lanzar;
 
     void Start()
     {
@@ -44,6 +45,7 @@ public class BallController : MonoBehaviour
     {
         Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
         return viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1 && viewPos.z > 0;
+        audio1.PlayOneShot(pelota);
     }
 
     void Update()
@@ -59,7 +61,7 @@ public class BallController : MonoBehaviour
         }
         if (lanzamiento == 1)
         {
-            rend.material.color = Color.white;
+            // rend.material.color = Color.white;
         }
 
         // Agrega una condición para verificar si el objeto con el tag "RobotTag" está a menos de 10 unidades de distancia
@@ -74,47 +76,11 @@ public class BallController : MonoBehaviour
                 {
                     rend.material.color = Color.blue;
                 }
-                /*
-                if (Input.GetKeyDown(KeyCode.S))
-                {
-                    rb.AddForce(transform.forward * force + transform.up * upwardForce, ForceMode.Impulse);
-                    lanzamiento += 1f;
-                    audio1.PlayOneShot(pelota);
-                    Invoke("ladrar", 0.5f);
-                }
-                else if (Input.GetKeyDown(KeyCode.D))
-                {
-                    rb.AddForce(-transform.right * force + transform.up * upwardForce, ForceMode.Impulse);
-                    lanzamiento += 1f;
-                    audio1.PlayOneShot(pelota);
-                    Invoke("ladrar", 0.5f);
-                }
-                else if (Input.GetKeyDown(KeyCode.A))
-                {
-                    rb.AddForce(transform.right * force + transform.up * upwardForce, ForceMode.Impulse);
-                    lanzamiento += 1f;
-                    audio1.PlayOneShot(pelota);
-                    Invoke("ladrar", 0.5f);
-                }
-                else if (Input.GetKeyDown(KeyCode.W))
-                {
-                    rb.AddForce(-transform.forward * force + transform.up * upwardForce, ForceMode.Impulse);
-                    lanzamiento += 1f;
-                    Debug.Log("W");
-                    audio1.PlayOneShot(pelota);
-                    Invoke("ladrar", 0.5f);
-                }
-                */
+               
             }
         }
             
             
     }
-    /*
-        private void ladrar()
-        {
-            audio1.PlayOneShot(ladrido);
-        }
-    */
 }
 

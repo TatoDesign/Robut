@@ -32,7 +32,7 @@ public class ResorteraController : MonoBehaviour
         if (meshRenderer != null && meshRenderer.enabled && Input.GetMouseButtonDown(0))
         {
             LanzarProyectil();
-        }
+        }   
 
         // Actualiza la rotación del punto de lanzamiento para mirar hacia la posición del mouse
         if (meshRenderer != null && meshRenderer.enabled)

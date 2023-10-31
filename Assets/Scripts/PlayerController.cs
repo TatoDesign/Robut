@@ -16,14 +16,17 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-      
-        
+      if( UIcontroller.playerCanMove== true)
+        {
             // Movimiento relativo al objeto
             float movimientoHorizontal = Input.GetAxis("Horizontal");
             float movimientoVertical = Input.GetAxis("Vertical");
 
             Vector3 movimiento = new Vector3(movimientoHorizontal, 0, movimientoVertical) * velocidad * Time.fixedDeltaTime;
             rb.MovePosition(transform.position + (transform.rotation * movimiento));
+        }
+        
+            
 
     }
 
