@@ -9,7 +9,8 @@ public class StatesMachineScript : MonoBehaviour
     private GameObject robut;
     private MeshRenderer ballMesh;
     public static int StatesMachine = 0;
-    
+    AudioSource audio;
+    [SerializeField] AudioClip ladrido;
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -30,14 +31,17 @@ public class StatesMachineScript : MonoBehaviour
         {
             ballMesh.enabled = true;
             StatesMachine += 1;
+            audio.PlayOneShot(ladrido);
         }
         if ( StatesMachine == 4)
         {
             Invoke("Transporte1",2f);//es este el que quiero hacer que tarde 
+            StatesMachine += 1;
         } 
         if (StatesMachine == 6)
         {
             Invoke("Transporte2", 2f);
+            StatesMachine += 1;
         }
     }
     void Transporte1()
@@ -45,14 +49,14 @@ public class StatesMachineScript : MonoBehaviour
         player.transform.position = new Vector3(117f, 6f, -59f);
         robut.transform.position = new Vector3(120f, 6f, -59f);
         ball.transform.position = new Vector3(117f, 8f, -60f);
-        StatesMachine += 1;
+       
     }
     void Transporte2()
     {
         player.transform.position = new Vector3(-297, 4f, -182.019f);
         robut.transform.position = new Vector3(-299, 4f, -183.019f);
         ball.transform.position = new Vector3(-300, 4f, -184.019f);
-        StatesMachine += 1;
+     
     }
 }
 

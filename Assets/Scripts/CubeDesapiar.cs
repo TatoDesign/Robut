@@ -4,9 +4,26 @@ using UnityEngine;
 
 public class CubeDesapiar : MonoBehaviour
 {
-    void OnMouseDown()
+
+    private void Update()
     {
-        // Destruye el objeto después de 5 segundos
-        Destroy(gameObject, 5f);
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
+            {
+                Teleport();
+            }
+        }
     }
+
+    void Teleport()
+    {
+        StatesMachineScript.StatesMachine += 1;
+    }
+
 }
+
+
