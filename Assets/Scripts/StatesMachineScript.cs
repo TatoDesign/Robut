@@ -31,7 +31,7 @@ public class StatesMachineScript : MonoBehaviour
         {
             ballMesh.enabled = true;
             StatesMachine += 1;
-            audio.PlayOneShot(ladrido);
+           // audio.PlayOneShot(ladrido);
         }
         if ( StatesMachine == 4)
         {
