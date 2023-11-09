@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class StatesMachineScript : MonoBehaviour
@@ -9,7 +10,8 @@ public class StatesMachineScript : MonoBehaviour
     private GameObject robut;
     private MeshRenderer ballMesh;
     public static int StatesMachine = 0;
-    
+    int onetime1 = 0;
+    int onetime2 = 0;
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -21,6 +23,7 @@ public class StatesMachineScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+   
         if (StatesMachine == 0)
         {
             ballMesh.enabled = false;
@@ -33,25 +36,39 @@ public class StatesMachineScript : MonoBehaviour
         }
         if ( StatesMachine == 4)
         {
-            Invoke("Transporte1",2f);//es este el que quiero hacer que tarde 
-        } 
-        if (StatesMachine == 6)
+            
+            if (onetime1 == 0)
+            {
+                Invoke("Transporte1",2f);
+                onetime1 = 1;
+            }
+            
+        }
+        if (StatesMachine == 7)
         {
-            Invoke("Transporte2", 2f);
+           
+            if (onetime2 == 0)
+            {
+                Invoke("Transporte2", 2f);
+            }
+            onetime2 = 1;
         }
     }
     void Transporte1()
     {
-        player.transform.position = new Vector3(117f, 6f, -59f);
-        robut.transform.position = new Vector3(120f, 6f, -59f);
-        ball.transform.position = new Vector3(117f, 8f, -60f);
-        StatesMachine += 1;
+     
+            player.transform.position = new Vector3(117f, 0.9200001f, -59f);
+            robut.transform.position = new Vector3(120f, 0.9200001f, -59f);
+            ball.transform.position = new Vector3(117f, 0.9200001f, -60f);
+            StatesMachine += 1;
+           
+        
     }
     void Transporte2()
     {
-        player.transform.position = new Vector3(-297, 4f, -182.019f);
-        robut.transform.position = new Vector3(-299, 4f, -183.019f);
-        ball.transform.position = new Vector3(-300, 4f, -184.019f);
+        player.transform.position = new Vector3(88.05612f, 0.9200001f, 0.917779f);
+        robut.transform.position = new Vector3(88.05612f, 0.9200001f, 1f);
+        ball.transform.position = new Vector3(88.05612f, 0.9200001f, 2f);
         StatesMachine += 1;
     }
 }

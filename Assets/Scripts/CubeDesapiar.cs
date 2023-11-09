@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CubeDesapiar : MonoBehaviour
 {
-    void OnMouseDown()
+    // Este método se llama cuando el objeto con este script colisiona con otro
+    private void OnCollisionEnter(Collision collision)
     {
-        // Destruye el objeto después de 5 segundos
-        Destroy(gameObject, 5f);
+        // Comprobamos si el objeto que colisiona tiene el tag "Player"
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Si es así, hacemos lo que queremos, como destruir el objeto o cambiar el estado de la máquina
+            Destroy(gameObject, 5f);
+            StatesMachineScript.StatesMachine += 1;
+        }
     }
 }

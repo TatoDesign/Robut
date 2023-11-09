@@ -12,6 +12,7 @@ public class ResorteraController2 : MonoBehaviour
     private bool isCharging;
     private float chargeStartTime;
     private Renderer objectRenderer;
+
     void Start()
     {
         objectRenderer = GetComponent<Renderer>();

@@ -21,7 +21,8 @@ public class TabletController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Alpha3))
+        Debug.Log(BoxCommunicator.CommunicatorBOX);
+        if (BoxCommunicator.CommunicatorBOX == true)
         {
             objectRenderer.enabled = true;
         }

@@ -8,6 +8,7 @@ public class RobutController : MonoBehaviour
     private float maxDistance = 10f;
     private Rigidbody rb;
     private bool isFetching = false;
+    public static bool buscando = false;
 
     private GameObject mainCamera;
     private GameObject taggedObjectMouth;
@@ -40,6 +41,7 @@ public class RobutController : MonoBehaviour
     private Vector3 originalPosition;
     void Update()
     {
+ 
         if (UIcontroller.robutCanCome == true)
         {
             if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -68,10 +70,12 @@ public class RobutController : MonoBehaviour
 
                 if (!isFetching && distanceToBall > maxDistance)
                 {
+                    buscando = true;
                     targetDirection = taggedObjectBall.transform.position - transform.position; // Mira a la pelota
                 }
                 else
                 {
+                    buscando = false;
                     targetDirection = mainCamera.transform.position - transform.position; // Mira a la cámara principal
                 }
 
